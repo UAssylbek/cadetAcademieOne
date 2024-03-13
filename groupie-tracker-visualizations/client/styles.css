@@ -1,0 +1,99 @@
+body {
+    font-family: "Times New Roman", Times, serif;
+    margin: 0;
+    padding: 0;
+    background-color: #c0c0c0;
+    align-items: center;
+}
+
+h1 {
+    padding: 50px;
+    text-align: center;
+    color: #333;
+}
+
+h2 {
+    padding: 50px;
+}
+
+.my-div {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+img {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+ul {
+    text-align: center;
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    margin-bottom: 10px;
+}
+
+ul ul {
+    margin-top: 5px;
+    margin-left: 20px;
+}
+
+ul ul li {
+    margin-bottom: 5px;
+}
+
+p {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+button, h2 {
+    text-align: center;
+}
+
+.tog {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px; /* Расстояние между кнопками */
+}
+
+.tog button {
+    padding: 10px 20px; /* Отступы кнопки */
+    font-size: 16px; /* Размер текста кнопки */
+    background-color: #a3a3a3; /* Цвет фона кнопки */
+    color: white; /* Цвет текста кнопки */
+    border: none; /* Убираем границу кнопки */
+    border-radius: 5px; /* Закругляем углы кнопки */
+    cursor: pointer; /* Изменяем курсор при наведении */
+    transition: background-color 0.3s ease; /* Плавное изменение цвета фона при наведении */
+}
+
+.tog button:hover {
+    background-color: #5d5d5d; /* Цвет фона кнопки при наведении */
+}
+
+
+.cards .card:hover {
+    transform: scale(1.1,1.1);
+}
+
+.cards:hover > .card:not(:hover) {
+    filter: blur(10px);
+    transform: scale(0.9, 0.9);
+}
+
+.location-details {
+    background-color: #c0c0c0;
+    padding: 50px;
+}
