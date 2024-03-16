@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/client/arstyles.css">
+    <title>Artists</title>
+</head>
+<body>
+    <h1>Artists</h1>
+    <ul>
+        {{range .}}
+        <li>
+            <div class="artist-info" >
+                <img src="{{.Image}}" alt="{{.Name}} Image">
+                <div class="info">
+                    <a href="/artists/{{.ID}}">{{.Name}}</a>
+                    <div class="members_wraper">
+                        <p>Members:</p>
+                        <ul>
+                            {{range $index, $member := .Members}}
+                            <li>{{.}}{{end}}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </li>
+        {{end}}
+    </ul>
+</body>
+</html>
