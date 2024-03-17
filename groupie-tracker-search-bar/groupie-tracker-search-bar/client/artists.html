@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/client/arstyles.css">
+    <title>Artists</title>
+</head>
+<body>
+    <h1>Artists</h1>
+    <form action="/search" method="GET">
+        <input type="text" id="searchInput" name="query" placeholder="Search">
+        <div id="searchResults"></div>
+        <button type="submit">Search</button>
+    </form>
+    <ul>
+        {{range .}}
+        <li>
+            <div class="artist-info" >
+                <img src="{{.Image}}" alt="{{.Name}} Image">
+                <div class="info">
+                    <a href="/artists/{{.ID}}">{{.Name}}</a>
+                    <div class="members_wraper">
+                        <p>Members:</p>
+                        <ul>
+                            {{range $index, $member := .Members}}
+                            <li>{{.}}{{end}}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </li>
+        {{end}}
+    </ul>
+    <div id="suggestions"></div>
+
+    <script>
+        // Список подсказок
+        var suggestionsList = [
+            "Подсказка 1",
+            "Подсказка 2",
+            "Подсказка 3",
+            "Подсказка 4",
+            "Подсказка 5"
+        ];
+    
+        // Получаем поле ввода и контейнер для подсказок
+        var searchInput = document.getElementById('searchInput');
+        var suggestionsContainer = document.getElementById('suggestions');
+    
+        // Добавляем обработчик события input
+        searchInput.addEventListener('input', function() {
+            var query = this.value.trim().toLowerCase();
+    
+            // Очищаем контейнер с подсказками
+            suggestionsContainer.innerHTML = '';
+    
+            // Если запрос пустой, выходим
+            if (query === '') return;
+    
+            // Фильтруем подсказки, соответствующие введенному запросу
+            var matchingSuggestions = suggestionsList.filter(function(suggestion) {
+                return suggestion.toLowerCase().includes(query);
+            });
+    
+            // Отображаем подходящие подсказки
+            matchingSuggestions.forEach(function(suggestion) {
+                var suggestionDiv = document.createElement('div');
+                suggestionDiv.textContent = suggestion;
+                suggestionsContainer.appendChild(suggestionDiv);
+            });
+        });
+    </script>
+
+    <script src="/client/arscript.js"></script>
+</body>
+</html>
