@@ -1,0 +1,97 @@
+/* arstyles.css */
+
+body {
+    font-family: "Times New Roman", Times, serif;
+    background-color: #c0c0c0;
+    margin: 0;
+    padding: 0;
+}
+
+
+h1 {
+    font-size: 50px;
+    font-family: "Times New Roman", Times, serif;
+    text-align: center;
+    padding: 20px 0;
+    color: #000000;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+li {
+    margin: 20px;
+}
+
+.artist-info {
+    display: flex;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 35rem;
+    height: 13rem;
+}
+
+.artist-info img {
+    max-width: 200px;
+    height: auto;
+    border-radius: 8px 0 0 8px;
+}
+
+.info {
+    padding: 20px;
+}
+
+.info a {
+    color: #333;
+    font-size: 20px;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.info p {
+    margin: 0;
+    font-weight: bold;
+    color: #666;
+}
+
+.info ul {
+    margin: 10px 0 0 0;
+    padding: 0;
+}
+
+.info ul li {
+    list-style: none;
+    margin-bottom: 5px;
+    color: #444;
+}
+.members_wraper {
+    display: flex;
+
+}
+.members_wraper ul {
+    display: inline-block;
+    margin: 0;
+}
+.members_wraper ul li {
+    padding: 0;
+    margin: 0;
+}
+
+.search-container {
+    text-align: center;
+    margin: 0 auto;
+}
+
+.highlight {
+    background-color: yellow;
+    color: black;
+}

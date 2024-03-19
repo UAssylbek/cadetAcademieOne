@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/client/arstyles.css">
+    <title>Artists</title>
+</head>
+<body>
+    <h1>Artists</h1>
+    <div class="search-container">
+        <form action="/search" method="GET">
+            <input type="text" id="searchInput" name="query" placeholder="Search" style="width: 300px; height: 30px; font-size: 25px;">
+            <ul id="suggestions" style="width: 300px; max-height: 300px; overflow-y: auto; margin: 0 auto;">
+            <!-- <button type="submit">Search</button> -->
+        </form>
+    </div>
+    <ul>
+        {{range .}}
+        <li>
+            <div class="artist-info" >
+                <img src="{{.Image}}" alt="{{.Name}} Image">
+                <div class="info">
+                    <a href="/artists/{{.ID}}">{{.Name}}</a>
+                    <div class="members_wraper">
+                        <p>Members:</p>
+                        <ul>
+                            {{range $index, $member := .Members}}
+                            <li>{{.}}{{end}}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </li>
+        {{end}}
+    </ul>
+    <div id="suggestions"></div>
+
+    <script>
+        const style = document.createElement('style');
+        style.textContent = `
+            .highlight {
+                background-color: yellow;
+                color: black;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        const suggestionsList = document.getElementById('suggestions');
+    
+        function highlightMatches(text) {
+            const stringText = String(text); // Преобразование в строку
+            const query = searchInput.value.trim();
+            const regex = new RegExp(`(${query})`, 'gi');
+            return stringText.replace(regex, '<span class="highlight">$1</span>');
+        }
+    
+        searchInput.addEventListener('input', function() {
+            const query = searchInput.value.trim();
+            if (query === '') {
+                suggestionsList.innerHTML = '';
+                return;
+            }
+    
+            fetch(`/search?query=${encodeURIComponent(query)}`, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest' // Установка заголовка
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Ошибка при запросе: ' + response.status);
+                    }
+                    return response.text(); // Получаем текст ответа
+                })
+                .then(data => {
+                    // Проверяем, является ли ответ JSON
+                    try {
+                        const jsonData = JSON.parse(data);
+                        suggestionsList.innerHTML = '';
+                        jsonData.forEach(artist => {
+                            const suggestionItem = document.createElement('li');
+                            suggestionItem.innerHTML = `
+                                <strong>${highlightMatches(artist.name)}</strong><br>
+                                <em>First Album:</em> ${highlightMatches(artist.firstAlbum)}<br>
+                                <em>Creation Date:</em> ${highlightMatches(artist.creationDate)}<br>
+                                <em>Members:</em> ${highlightMatches(artist.members.join(', '))}<br>
+                                <em>Location:</em> ${highlightMatches(artist.Location.locations.join(', '))}<br>
+                            `;
+                            // Формируем ссылку с идентификатором артиста
+                            const artistLink = `http://localhost:8080/artists/${artist.id}`;
+                            suggestionItem.style.cursor = 'pointer'; // Делаем указатель мыши указывающим на возможность клика
+                            suggestionItem.addEventListener('click', function() {
+                                window.location.href = artistLink; // Перенаправляем пользователя на страницу артиста
+                            });
+                            suggestionsList.appendChild(suggestionItem);
+                        });
+                    } catch (error) {
+                        console.error('Ошибка при парсинге JSON:', error);
+    
+                        //TODO: Здесь можно добавить обработку ошибки, если ответ не является JSON
+                    }
+                })
+                .catch(error => {
+                    console.error('Ошибка при получении данных:', error);
+                    // Возможно, здесь стоит очистить список подсказок или вывести сообщение об ошибке на странице
+                });
+        });
+    </script>
+    
+</body>
+</html>
