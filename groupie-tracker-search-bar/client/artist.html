@@ -25,18 +25,19 @@
 <body>
     <h1>Artist Information</h1>
     <div class="artist-details">
-        <img src="{{.Artists.Image}}" alt="{{.Artists.Name}} Image">
-        <h2 styles="text-align:center">{{.Artists.Name}}</h2>
+        <img src="{{.Image}}" alt="{{.Name}} Image">
+        <h2 styles="text-align:center">{{.Name}}</h2>
         <p><strong>Members:</strong></p>
         <ul>
-            {{range .Artists.Members}}
+            {{range .Members}}
             <li>{{.}}</li>
             {{end}}
         </ul>
-        <p><strong>Creation Date:</strong> {{.Artists.CreationDate}}</p>
-        <p><strong>First Album:</strong> {{.Artists.FirstAlbum}}</p>
+        <p><strong>Creation Date:</strong> {{.CreationDate}}</p>
+        <p><strong>First Album:</strong> {{.FirstAlbum}}</p>
     </div>
     <div id="map"></div>
+    <div id="data" style="display: none;">{{ .Location.Locations }}</div>
     <div class="tog" >
     <button  onclick="toggleInfo('date')">DATES</button>
     <button   onclick="toggleInfo('location')">LOCATIONS</button>
@@ -45,7 +46,7 @@
     <div class="location-details d-none" id="date-det">
         <p><strong>Dates:</strong></p>
         <ul>
-            {{range .Dates.Dates}}
+            {{range .Date.Dates}}
             <li>{{.}}</li>
             {{end}}
         </ul>
@@ -54,7 +55,7 @@
     <div class="location-details d-none" id="location-det">
         <p><strong>Locations:</strong></p>
         <ul>
-            {{range .Locations.Locations}}
+            {{range .Location.Locations}}
             <li>{{.}}</li>
             {{end}}
         </ul>
