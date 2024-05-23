@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Post</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: auto;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input[type="text"], textarea, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<h1>Create Post</h1>
+<form id="create-post-form" action="/create-post" method="POST" enctype="multipart/form-data">
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title" required>
+
+    <label for="content">Content:</label>
+    <textarea id="content" name="content" rows="4" cols="50" required></textarea>
+
+    <label for="categories">Categories:</label>
+    <select id="categories" name="categories[]" multiple required>
+        <option value="Technology">Technology</option>
+        <option value="Health">Health</option>
+        <option value="Lifestyle">Lifestyle</option>
+        <option value="Education">Education</option>
+        <option value="Entertainment">Entertainment</option>
+        <!-- Add more options as needed -->
+    </select>
+
+    <label for="image">Upload Image:</label>
+    <input type="file" id="image" name="image" accept="image/*"><br>
+
+    <button type="button" onclick="createPost()">Create Post</button>
+</form>
+
+<script>
+    function createPost() {
+        var formData = new FormData();
+        formData.append("title", document.getElementById("title").value);
+        formData.append("content", document.getElementById("content").value);
+
+        var categories = Array.from(document.getElementById("categories").selectedOptions).map(option => option.value);
+        formData.append("categories", categories.join(","));
+
+        var imageFile = document.getElementById("image").files[0];
+        if (imageFile) {
+            formData.append("image", imageFile);
+        }
+
+        fetch('/create-post', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = "/";
+                } else {
+                    throw new Error('Network response was not ok.');
+                }
+            })
+            .catch(error => {
+                console.error('There has been a problem with your fetch operation:', error);
+                // Handle error
+            });
+    }
+</script>
+</body>
+</html>

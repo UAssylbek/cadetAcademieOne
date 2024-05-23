@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Page</title>
+    <link rel="stylesheet" href="web/styles.css">
+</head>
+<body>
+<div class="navbar">
+    <button onclick="navigate('/')">Главная страница</button>
+    {{if .Session.Username}}
+    <button onclick="navigate('/post')">Создать пост</button>
+    {{else}}
+    <button onclick="navigate('/dashboard')">Создать пост</button>
+    {{end}}
+    <button onclick="navigate('/category')">Создать категорию</button>
+    <button onclick="navigate('search')">Поиск</button>
+    {{if .Session.Username}}
+    <button onclick="navigate('/logout')">Выйти</button>
+    {{else}}
+    <button onclick="navigate('/dashboard')">Войти</button>
+    {{end}}
+</div>
+<div class="container">
+    <h1>Posts</h1>
+    <div class="filter">
+        <label for="category-filter">Choose a category:</label>
+        <select id="category-filter" onchange="filterPosts()">
+            <option value="all">All</option>
+            <option value="technology">Technology</option>
+            <option value="science">Science</option>
+            <option value="art">Art</option>
+        </select>
+    </div>
+    {{ range .Posts }}
+    <div class="post" data-category="technology">
+        <div class="post-header">
+            <div class="post-info">
+                <h2>{{ .Title }}</h2>
+                <span class="post-meta">by John Doe {{ .CreatedAt.Format "2006-01-02 15:04:05" }}</span>
+            </div>
+        </div>
+        <img src="{{ .ImagePath}}" alt="Post Image" class="post-image">
+        <div class="post-content">
+            <p>{{ .Content }}</p>
+        </div>
+        <div class="post-footer">
+            <button class="like-btn" onclick="likePost(this)">👍 Like <span class="like-count">0</span></button>
+            <button class="dislike-btn" onclick="dislikePost(this)">👎 Dislike <span class="dislike-count">0</span></button>
+            <button class="comment-btn" onclick="toggleComments(this)">💬 Comment</button>
+        </div>
+        <div class="comments-section" style="display:none;">
+            <ul class="comments-list"></ul>
+            <input type="text" class="comment-text" placeholder="Add a comment">
+            <button class="add-comment-btn" onclick="addComment(this)">Add Comment</button>
+        </div>
+    </div>
+    {{ end }}
+</div>
+<script src="web/script.js"></script>
+</body>
+</html>

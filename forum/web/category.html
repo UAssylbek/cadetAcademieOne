@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Создать категорию</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #error-message {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<h1>Создать категорию</h1>
+<form id="create-category-form">
+    <label for="category-name">Название категории:</label><br>
+    <input type="text" id="category-name" name="categoryName" required><br>
+    <button type="submit">Создать категорию</button>
+</form>
+
+<div id="message"></div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var createCategoryForm = document.getElementById('create-category-form');
+        var messageDiv = document.getElementById('message');
+
+        createCategoryForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            var formData = new FormData(createCategoryForm);
+
+            fetch('/create-category', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Network response was not ok.');
+                    }
+                })
+                .then(data => {
+                    messageDiv.textContent = data.message;
+                    messageDiv.style.color = 'green';
+                    createCategoryForm.reset();
+                })
+                .catch(error => {
+                    console.error('There has been a problem with your fetch operation:', error);
+                    messageDiv.textContent = 'Ошибка при создании категории.';
+                    messageDiv.style.color = 'red';
+                });
+        });
+    });
+</script>
+</body>
+</html>
